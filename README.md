@@ -18,7 +18,7 @@ http://docker-app.test/
 
 >127.0.0.1	docker-app.test
 
-## Setup Project Dir = docker-app
+## Setup Project Dir = docker-app 
 
 1. Install Docker Desktop on your Windows machine.
 2. Create a new directory named "**docker-app**" at the root of your C drive. Inside the "docker-app" directory, create two subdirectories named "**public**", where is my index.php file, and **mysql**.
