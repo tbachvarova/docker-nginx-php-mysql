@@ -29,3 +29,22 @@ http://docker-app.test/
 When you run docker-compose with the up command, it will read the configuration in docker-compose.yml and create the necessary containers, networks, and volumes specified in the file. It will also start and stop the containers as needed based on their dependencies and configuration.
 
 4. Create a new directory named "**nginx-conf**" inside the "docker-app" directory. Inside the "nginx-conf" directory, create a new file named "[default.conf](nginx-conf/default.conf)" and add the code.
+
+
+5. Open the Windows command prompt or PowerShell and navigate to the "docker-app" directory. Or do this in Terminal of your editor IDE.
+
+
+6. Run the following command to start the Docker containers:
+
+   `docker-compose up -d`
+
+
+   This will build the Docker containers and start them in detached mode.
+
+7. To access the website, open your web browser and navigate to "http://docker-app.test:8080". You should see the default PHP page.
+
+
+8. To access MySQL remotely, you can find the IP address of the MySQL container by running the following command in the Windows command prompt or PowerShell:
+
+
+`docker inspect docker-app_db_1 | Select-String -Pattern "IPAddress"`

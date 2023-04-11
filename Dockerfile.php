@@ -1,13 +1,17 @@
-FROM php:8.1-fpm-alpine
+# Sets the base image to use for building the Docker image
+FROM php:8.1-fpm
 
-# Install necessary PHP extensions
-RUN docker-php-ext-install pdo_mysql
+# Installs necessary packages and enables the mcrypt extension
+RUN apt-get update && apt-get install -y \
+libmcrypt-dev \
+git \
+zip \
+unzip \
+&& pecl install mcrypt \
+&& docker-php-ext-enable mcrypt
 
-# Set working directory to document root
-WORKDIR /var/www/html/public
+# Installs the necessary PHP extensions for connecting to MySQL
+RUN docker-php-ext-install mysqli pdo pdo_mysql
 
-# Copy application files to container
-COPY . /var/www/html
-
-# Expose port 9000 for PHP-FPM
-EXPOSE 9000
+# Sets the working directory for the container
+WORKDIR /var/www/html

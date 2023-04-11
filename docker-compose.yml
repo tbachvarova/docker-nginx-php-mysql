@@ -19,12 +19,18 @@ services:
     # Connect this service to the 'app-network'
     networks:
       - app-network
+
   # The PHP service
   php:
-    # Use the PHP 8.1 FPM image from Docker Hub
-    image: php:8.1-fpm
+    # Specifies that we want to build an image for this service
+    build:
+      # The build context, which is the current directory
+      context: .
+      # The Dockerfile to use for building the image
+      dockerfile: Dockerfile.php
     # Mount the DOC_ROOT folder on the host to /var/www/html in the container
     volumes:
+      - ./config/php:/usr/local/etc/php/conf.d
       - ./public:/var/www/html
       # Connect this service to the 'app-network'
     networks:
