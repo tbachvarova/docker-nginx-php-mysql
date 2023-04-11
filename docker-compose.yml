@@ -1,41 +1,57 @@
 version: '3'
 
 services:
+  # The nginx service
   web:
+    # Use the latest Nginx image from Docker Hub
     image: nginx:latest
+    # Map host port 8080 to container port 80
     ports:
       - "8080:80"
+      # Mount the DOC_ROOT folder on the host to /var/www/html in the container
+      # Mount the nginx configuration folder on the host to /etc/nginx/conf.d in the container
     volumes:
       - ./public:/var/www/html
       - ./nginx-conf:/etc/nginx/conf.d
+    # Link this service to the 'php' service
     links:
       - php
+    # Connect this service to the 'app-network'
     networks:
       - app-network
-
+  # The PHP service
   php:
+    # Use the PHP 8.1 FPM image from Docker Hub
     image: php:8.1-fpm
+    # Mount the DOC_ROOT folder on the host to /var/www/html in the container
     volumes:
       - ./public:/var/www/html
+      # Connect this service to the 'app-network'
     networks:
       - app-network
-
+  # The MySQL service
   db:
+    # Use the latest MySQL image from Docker Hub
     image: mysql:latest
+    # Restart the container if it exits with an error
     restart: always
+    # Set environment variables for MySQL
     environment:
       MYSQL_ROOT_PASSWORD:
       MYSQL_DATABASE: docker_test_db
       MYSQL_USER: docker_user
       MYSQL_PASSWORD: dockerpass
       MYSQL_ALLOW_EMPTY_PASSWORD: true
+    # Map host port 3306 to container port 3306
     ports:
       - "3306:3306"
+    # Mount the MySQL data folder on the host to /var/lib/mysql in the container
     volumes:
       - ./mysql:/var/lib/mysql
+      # Connect this service to the 'app-network'
     networks:
       - app-network
-
+# Create a new Docker network named 'app-network'
 networks:
   app-network:
     driver: bridge
